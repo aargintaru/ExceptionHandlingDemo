@@ -1,4 +1,5 @@
 ﻿using System;
+using NLog;
 
 namespace ExceptionHandlingDemo
 {
@@ -6,6 +7,14 @@ namespace ExceptionHandlingDemo
     {
         static void Main(string[] args)
         {
+            var config = new NLog.Config.LoggingConfiguration();
+            var logFile = new NLog.Targets.FileTarget("logfile") { FileName = "log.txt" };
+            var logconsole = new NLog.Targets.ConsoleTarget("logConsole");
+
+            config.AddRule(LogLevel.Info, LogLevel.Fatal, logconsole);
+            config.AddRule(LogLevel.Debug, LogLevel.Fatal, logFile);
+            NLog.LogManager.Configuration = config;
+
             IFileHandler fileHandler = new TxtFileHandler("Persons.txt");
             Person[] persons = fileHandler.ReadData();
             foreach(var person in persons)

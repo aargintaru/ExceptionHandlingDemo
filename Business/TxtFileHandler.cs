@@ -6,6 +6,7 @@ namespace ExceptionHandlingDemo
     public class TxtFileHandler : IFileHandler
     {
         private readonly string filePath;
+        private static readonly NLog.Logger log = NLog.LogManager.GetCurrentClassLogger();
 
         public TxtFileHandler(string filePath)
         {
@@ -14,12 +15,15 @@ namespace ExceptionHandlingDemo
 
         public Person[] ReadData()
         {
+            log.Debug($"Start reading data from {filePath}");
             var linesRead = File.ReadAllLines(filePath);
+            log.Debug($"Finished reading data from {filePath}");
             return ParseLines(linesRead);
         }
 
         private Person[] ParseLines(string[] input)
         {
+            log.Info("Parsing lines read from file...");
             List<Person> persons = new List<Person>();
             foreach(var line in input)
             {
@@ -28,6 +32,7 @@ namespace ExceptionHandlingDemo
                 person.FirstName = splitLine[0].Trim();
                 person.LastName = splitLine[1].Trim();
                 person.Age = splitLine[2].Trim();
+                log.Debug($"Added person with the following details: FirstName={person.FirstName}, LastName={person.LastName}, Age={person.Age}");
                 persons.Add(person);
             }
             return persons.ToArray();
