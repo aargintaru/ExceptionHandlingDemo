@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -15,10 +16,18 @@ namespace ExceptionHandlingDemo
 
         public Person[] ReadData()
         {
-            log.Debug($"Start reading data from {filePath}");
-            var linesRead = File.ReadAllLines(filePath);
-            log.Debug($"Finished reading data from {filePath}");
-            return ParseLines(linesRead);
+            try
+            {
+                log.Debug($"Start reading data from {filePath}");
+                string[] linesRead = File.ReadAllLines(filePath);
+                log.Debug($"Finished reading data from {filePath}");
+                var result = ParseLines(linesRead);
+                return result;
+            }
+            catch(Exception ex)
+            {
+                throw new MyCustomException($"An error occured when reading data from file: {filePath}", ex);
+            }
         }
 
         private Person[] ParseLines(string[] input)
