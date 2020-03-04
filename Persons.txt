@@ -1,0 +1,5 @@
+Alin, Argintaru, 28
+Adrian, Subitz, 31
+Klaus, Iohannis, 60
+Traian, Basescu, 68
+Ion, Iliescu, 90
